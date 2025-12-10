@@ -1,0 +1,15 @@
+﻿<Application
+    x:Class="BeghToolsUi.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BeghToolsUi"
+    xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <xf:XamlFlairResources />
+                <ResourceDictionary Source="/Resources/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
