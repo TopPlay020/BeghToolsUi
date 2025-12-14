@@ -4,7 +4,7 @@ using System.IO;
 namespace BeghToolsUi.ViewModel.Pages
 {
     [PageInfo(false, "Image Converter", "/Assets/Icons/ImageEditor.png")]
-    public partial class ImageConverterViewModel : ObservableObject , IPageMenu , ITransientable
+    public partial class ImageConverterViewModel : ObservableObject, IPageMenu, ITransientable
     {
         private const string DefaultImagePath = "/Assets/Icons/Image.png";
         [ObservableProperty]
@@ -14,7 +14,11 @@ namespace BeghToolsUi.ViewModel.Pages
         [ObservableProperty]
         private string sourceImagePath = DefaultImagePath;
         [ObservableProperty]
+        private string? unsupportedImageInput = null;
+        [ObservableProperty]
         private string outputImagePath = DefaultImagePath;
+        [ObservableProperty]
+        private string? unsupportedImageOutput = null;
         [ObservableProperty]
         private int outputWidth = 100;
         [ObservableProperty]
@@ -39,7 +43,7 @@ namespace BeghToolsUi.ViewModel.Pages
         private ImageConversionService _imageConversionService;
         public ImageConverterViewModel(ImageConversionService imageConversionService)
         {
-            imageTypes = new List<string> { "Ico", "png", "jpg", "bmp", "gif" };
+            imageTypes = ImageConversionService.SupportedFormats;
             outputImageType = imageTypes[0];
             _imageConversionService = imageConversionService;
         }
@@ -58,10 +62,17 @@ namespace BeghToolsUi.ViewModel.Pages
             var dialog = new OpenFileDialog
             {
                 Title = "Select Source Image",
-                Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.ico"
+                Filter = "Image Files|" + string.Join(";", ImageTypes.Select(f => "*." + f))
+
             };
             if (dialog.ShowDialog() == true)
             {
+                var selectedFilePath = dialog.FileName;
+                var selectedFileExtension = Path.GetExtension(selectedFilePath).ToLower().TrimStart('.');
+                if (WPFImageUnsupportedFormats.Contains(selectedFileExtension))
+                    UnsupportedImageInput = selectedFileExtension;
+                else
+                    UnsupportedImageInput = null;
                 SourceImagePath = dialog.FileName;
                 ReadyToExport = false;
                 CanConvert = true;
@@ -94,6 +105,10 @@ namespace BeghToolsUi.ViewModel.Pages
             IsConverting = false;
             CanConvert = true;
             ReadyToExport = true;
+            if (WPFImageUnsupportedFormats.Contains(OutputImageType))
+                UnsupportedImageOutput = OutputImageType;
+            else
+                UnsupportedImageOutput = null;
             OutputImagePath = tempFile;
         }
 

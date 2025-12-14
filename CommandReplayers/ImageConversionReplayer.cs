@@ -37,13 +37,13 @@ namespace BeghToolsUi.CommandReplays
 
         public void AddToContextMenu()
         {
-            string[] supportedTypes = { ".png", ".jpg", ".jpeg", ".bmp", ".ico", ".gif" };
+            var supportedTypes = ImageConversionService.SupportedFormats;
             string execPath = GetCurrentExecutablePath();
             using var baseKey = Registry.ClassesRoot.OpenSubKey(@"SystemFileAssociations", true);
 
             foreach (var ext in supportedTypes)
             {
-                string mainKeyPath = $@"{ext}\shell\ConvertImageType";
+                string mainKeyPath = $@".{ext}\shell\ConvertImageType";
                 using var mainKey = baseKey!.CreateSubKey(mainKeyPath);
                 mainKey.SetValue("MUIVerb", "Convert Image Type");
                 mainKey.SetValue("Icon", execPath);
@@ -56,17 +56,16 @@ namespace BeghToolsUi.CommandReplays
                 // Create each conversion option
                 foreach (var type in supportedTypes)
                 {
-                    if (type.Equals(ext, StringComparison.OrdinalIgnoreCase)) continue;
+                    if (type.Equals(ext)) continue;
 
-                    string cleanType = type.TrimStart('.');
-                    string subKeyName = $"ConvertTo{cleanType.ToUpper()}";
+                    string subKeyName = $"ConvertTo{type.ToUpper()}";
 
                     using var subKey = shellKey.CreateSubKey(subKeyName);
-                    subKey.SetValue("", $"Convert to {cleanType.ToUpper()}");
+                    subKey.SetValue("", $"Convert to {type.ToUpper()}");
                     subKey.SetValue("Icon", execPath);
 
                     using var cmdKey = subKey.CreateSubKey("command");
-                    cmdKey.SetValue("", $"\"{execPath}\" ImageConversion \"%1\" {cleanType}");
+                    cmdKey.SetValue("", $"\"{execPath}\" ImageConversion \"%1\" {type}");
                 }
             }
         }

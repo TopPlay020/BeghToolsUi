@@ -1,38 +1,68 @@
-﻿using System.Drawing.Imaging;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using WebpWrapper;
 
 namespace BeghToolsUi.Services
 {
     public class ImageConversionService : ISingletonable
     {
+        static public List<string> SupportedFormats = ["png", "jpg", "jpeg", "bmp", "gif", "ico", "webp"];
         public void ConvertImage(string imagePath, string outputPath, string outputFormat)
         {
-            using (Bitmap image = new Bitmap(imagePath))
+            Bitmap image;
+            if (IsWebP(imagePath))
             {
-                if (outputFormat.Equals("ico", StringComparison.OrdinalIgnoreCase))
-                    CreateIconFile(outputPath, image);
-                else if (outputFormat.Equals("jpg", StringComparison.OrdinalIgnoreCase) || outputFormat.Equals("jpeg", StringComparison.OrdinalIgnoreCase))
-                {
-                    using (Bitmap bmp = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb))
-                    {
-                        using (Graphics g = Graphics.FromImage(bmp))
-                        {
-                            g.Clear(Color.White);
-                            g.DrawImage(image, 0, 0, image.Width, image.Height);
-                        }
-                        bmp.Save(outputPath, ImageFormat.Jpeg);
-                    }
-                }
-                else
-                {
-                    image.Save(outputPath, GetImageFormatFromString(outputFormat));
-                }
-
+                using (var webp = new WebP())
+                    image = webp.Load(imagePath);
             }
+            else
+            {
+                image = new Bitmap(imagePath);
+            }
+
+            if (outputFormat.Equals("ico", StringComparison.OrdinalIgnoreCase))
+                SaveIconFile(outputPath, image);
+            else if( outputFormat.Equals("webp", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var webp = new WebP())
+                {
+                    webp.Save(image, outputPath, 75); // Quality set to 75
+                }
+            }
+            else if (outputFormat.Equals("jpg", StringComparison.OrdinalIgnoreCase) || outputFormat.Equals("jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                using (Bitmap bmp = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb))
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.White);
+                        g.DrawImage(image, 0, 0, image.Width, image.Height);
+                    }
+                    bmp.Save(outputPath, ImageFormat.Jpeg);
+                }
+            }
+            else
+            {
+                image.Save(outputPath, GetImageFormatFromString(outputFormat));
+            }
+            image.Dispose();
         }
 
-        private static void CreateIconFile(string outputPath, Bitmap image)
+        bool IsWebP(string imagePath)
+        {
+            byte[] header = new byte[4];
+            using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            {
+                fs.ReadExactly(header, 0, 4);
+            }
+            // WebP files start with "RIFF" and "WEBP" in bytes 8-11
+            return header[0] == 'R' && header[1] == 'I' && header[2] == 'F' && header[3] == 'F' &&
+                   File.ReadAllBytes(imagePath)[8] == 'W' && File.ReadAllBytes(imagePath)[9] == 'E' &&
+                   File.ReadAllBytes(imagePath)[10] == 'B' && File.ReadAllBytes(imagePath)[11] == 'P';
+        }
+
+        private static void SaveIconFile(string outputPath, Bitmap image)
         {
             Size[] iconSizes = {
             new Size(16, 16),

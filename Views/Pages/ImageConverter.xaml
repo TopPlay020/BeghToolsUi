@@ -233,7 +233,22 @@
                                 xf:Animations.Secondary="{xf:Animate BasedOn={StaticResource Grow},
                                                                      Event=None}"
                                 Source="{Binding SourceImagePath}"
-                                Stretch="Uniform" />
+                                Stretch="Uniform"
+                                Visibility="{Binding UnsupportedImageInput, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=True}" />
+                            <Viewbox Margin="60">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    xf:Animations.CombinedBinding="{Binding IsConverting}"
+                                    xf:Animations.Primary="{xf:Animate BasedOn={StaticResource Shrink},
+                                                                       Event=None}"
+                                    xf:Animations.Secondary="{xf:Animate BasedOn={StaticResource Grow},
+                                                                         Event=None}"
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding UnsupportedImageInput}"
+                                    Visibility="{Binding UnsupportedImageInput, Converter={StaticResource NullToVisibilityConverter}}" />
+                            </Viewbox>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -265,7 +280,22 @@
                                                                Event=None}"
                             xf:Animations.PrimaryBinding="{Binding IsConverting}"
                             Source="{Binding OutputImagePath}"
-                            Stretch="Uniform" />
+                            Stretch="Uniform"
+                            Visibility="{Binding UnsupportedImageOutput, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=True}" />
+                        <Viewbox Margin="60">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                xf:Animations.CombinedBinding="{Binding IsConverting}"
+                                xf:Animations.Primary="{xf:Animate BasedOn={StaticResource Shrink},
+                                                                   Event=None}"
+                                xf:Animations.Secondary="{xf:Animate BasedOn={StaticResource Grow},
+                                                                     Event=None}"
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Text="{Binding UnsupportedImageOutput}"
+                                Visibility="{Binding UnsupportedImageOutput, Converter={StaticResource NullToVisibilityConverter}}" />
+                        </Viewbox>
                     </Grid>
                 </Grid>
             </Grid>

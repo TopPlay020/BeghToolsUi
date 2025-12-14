@@ -30,5 +30,7 @@ namespace BeghToolsUi
         {
             return System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName;
         }
+
+        public static List<string> WPFImageUnsupportedFormats = new() { "webp" };
     }
 }
