@@ -1,6 +1,7 @@
 ﻿using BeghToolsUi.Attributes;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 namespace BeghToolsUi.ViewModel.Pages
 {
     [PageInfo(false, "Image Converter", "/Assets/Icons/ImageEditor.png")]
@@ -54,6 +55,21 @@ namespace BeghToolsUi.ViewModel.Pages
             ReadyToExport = false;
         }
 
+        private void SelectFilePath(string SelectedFilePath)
+        {
+            SourceImagePath = SelectedFilePath;
+            ReadyToExport = false;
+            CanConvert = true;
+            OutputImagePath = DefaultImagePath;
+        }
+
+        public void DropSourceImagePathCommand(string SelectedFilePath)
+        {
+            var ext = Path.GetExtension(SelectedFilePath).TrimStart('.');
+            if (ImageTypes.Contains(ext.ToLower()))
+                SelectFilePath(SelectedFilePath);
+        }
+
         [RelayCommand]
         private void SelectSourceImagePath()
         {
@@ -73,10 +89,7 @@ namespace BeghToolsUi.ViewModel.Pages
                     UnsupportedImageInput = selectedFileExtension;
                 else
                     UnsupportedImageInput = null;
-                SourceImagePath = dialog.FileName;
-                ReadyToExport = false;
-                CanConvert = true;
-                OutputImagePath = DefaultImagePath;
+                SelectFilePath(dialog.FileName);
             }
             else
             {

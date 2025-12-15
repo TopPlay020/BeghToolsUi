@@ -41,9 +41,11 @@
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
+                    AllowDrop="True"
                     Background="Transparent"
                     BorderThickness="0"
                     Command="{Binding SelectSourceImagePathCommand}"
+                    Drop="Button_Drop"
                     IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}">
                     <Grid>
                         <!--  Dashed Border  -->
