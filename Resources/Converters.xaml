@@ -5,4 +5,5 @@
     <converters:BoolToHiddenVisibilityConverter x:Key="BoolToHiddenVisibilityConverter" />
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:HexToBrushConverter x:Key="HexToBrushConverter" />
 </ResourceDictionary>

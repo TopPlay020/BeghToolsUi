@@ -1,7 +1,5 @@
-﻿using BeghToolsUi.Attributes;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.IO;
-using System.Windows;
 namespace BeghToolsUi.ViewModel.Pages
 {
     [PageInfo(false, "Image Converter", "/Assets/Icons/ImageEditor.png")]
@@ -20,6 +18,8 @@ namespace BeghToolsUi.ViewModel.Pages
         private string outputImagePath = DefaultImagePath;
         [ObservableProperty]
         private string? unsupportedImageOutput = null;
+        [ObservableProperty]
+        private string selectedColorHex = "#FFFFFF";
         [ObservableProperty]
         private int outputWidth = 100;
         [ObservableProperty]
@@ -100,7 +100,7 @@ namespace BeghToolsUi.ViewModel.Pages
         [RelayCommand]
         private void SelectColor()
         {
-
+            
         }
 
         [RelayCommand]

@@ -121,21 +121,39 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBox
-                                Grid.Column="0"
-                                Margin="0,0,5,0"
-                                IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}"
-                                Text="{Binding OutputHeight, Mode=TwoWay}" />
+                            <Grid Grid.Column="0" Margin="0,0,5,0">
+                                <TextBox
+                                    Padding="30,5,10,6"
+                                    VerticalAlignment="Bottom"
+                                    IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}"
+                                    Text="{Binding OutputHeight, Mode=TwoWay}" />
+                                <TextBlock
+                                    Margin="15,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                                    IsHitTestVisible="False"
+                                    Text="W:" />
+                            </Grid>
                             <Button
                                 Grid.Column="1"
-                                Width="30"
-                                Content="×"
+                                Width="{Binding ElementName=VerticalResizeInput, Path=ActualHeight}"
+                                Height="{Binding ElementName=VerticalResizeInput, Path=ActualHeight}"
+                                Padding="0"
+                                Content="X"
                                 IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}" />
-                            <TextBox
-                                Grid.Column="2"
-                                Margin="5,0,0,0"
-                                IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}"
-                                Text="{Binding OutputWidth, Mode=TwoWay}" />
+                            <Grid Grid.Column="2" Margin="5,0,0,0">
+                                <TextBox
+                                    x:Name="VerticalResizeInput"
+                                    Padding="30,5,10,6"
+                                    IsEnabled="{Binding IsConverting, Converter={StaticResource InverseBooleanConverter}}"
+                                    Text="{Binding OutputWidth, Mode=TwoWay}" />
+                                <TextBlock
+                                    Margin="15,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                                    IsHitTestVisible="False"
+                                    Text="H:" />
+                            </Grid>
                         </Grid>
                     </StackPanel>
 
@@ -154,21 +172,21 @@
                             </Grid.ColumnDefinitions>
 
                             <Rectangle
-                                Width="{Binding ElementName=PickColorButton, Path=ActualHeight}"
-                                Height="{Binding ElementName=PickColorButton, Path=ActualHeight}"
-                                Fill="White"
+                                Width="{Binding ElementName=ColorInput, Path=ActualHeight}"
+                                Height="{Binding ElementName=ColorInput, Path=ActualHeight}"
+                                Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrushConverter}}"
+                                IsEnabled="{Binding IsJPEG}"
                                 RadiusX="5"
                                 RadiusY="5"
                                 Stroke="{DynamicResource ControlElevationBorderBrush}"
                                 StrokeThickness="5" />
 
-                            <Button
-                                x:Name="PickColorButton"
+                            <TextBox
+                                x:Name="ColorInput"
                                 Grid.Column="2"
-                                HorizontalAlignment="Stretch"
-                                Command="{Binding SelectColorCommand}"
-                                Content="Pick Color"
-                                IsEnabled="{Binding IsJPEG}" />
+                                IsEnabled="{Binding IsJPEG}"
+                                MaxLength="7"
+                                Text="{Binding SelectedColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </StackPanel>
 
