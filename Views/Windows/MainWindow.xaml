@@ -14,7 +14,6 @@
     d:DataContext="{d:DesignInstance Type=windows:MainWindowViewModel,
                                      IsDesignTimeCreatable=True}"
     ResizeMode="NoResize"
-    ThemeMode="Dark"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
