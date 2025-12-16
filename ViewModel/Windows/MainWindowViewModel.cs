@@ -36,7 +36,7 @@ namespace BeghToolsUi.ViewModel.Windows
                     MainMenuItems.Add(new MenuItemModel { Title = attr.PageTitle, Icon = attr.PageIcon, PageType = PageType });
             }
 
-            MainSelectedItem = mainMenuItems.First();
+            MainSelectedItem = mainMenuItems.Last();
         }
 
         void ChangeView(MenuItemModel? value, bool isMain)
