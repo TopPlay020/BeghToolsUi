@@ -45,7 +45,7 @@ namespace BeghToolsUi.ViewModel.Windows
             if (isMain) FooterSelectedItem = null;
             else MainSelectedItem = null;
             IsAnimated = false;
-            MainView = App.Services.GetRequiredService(value.PageType);
+            MainView = GetRequiredService(value.PageType);
             IsAnimated = true;
         }
         partial void OnMainSelectedItemChanged(MenuItemModel? value) => ChangeView(value, true);

@@ -23,7 +23,7 @@ namespace BeghToolsUi.ViewModel.Pages
             foreach (var addable in contextMenuAddables)
             {
                 var attrubute = addable.GetCustomAttribute<ArgumentPlayableAttribute>()!;
-                var contextMenuAddable = (IContextMenuAddable)App.Services.GetRequiredService(addable);
+                var contextMenuAddable = GetRequiredService<IContextMenuAddable>(addable);
                 contextMenuItems.Add(new ContextMenuItemModel
                 {
                     Description = attrubute.ArgumentDescription,
@@ -39,7 +39,7 @@ namespace BeghToolsUi.ViewModel.Pages
         private void ContextMenuAddable(ContextMenuItemModel item)
         {
             item.IsInstalling = true;
-            if(item.ContextMenuAddable.ExistsInContextMenu())
+            if (item.ContextMenuAddable.ExistsInContextMenu())
             {
                 item.ContextMenuAddable.RemoveFromContextMenu();
                 item.IsInstalled = false;

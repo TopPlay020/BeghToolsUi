@@ -31,6 +31,22 @@ namespace BeghToolsUi
             return System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName;
         }
 
+        public static T GetRequiredService<T>() where T : notnull
+        {
+            return App.Services.GetRequiredService<T>();
+        }
+
+        public static T GetRequiredService<T>(Type serviceType)
+        {
+            return (T)App.Services.GetRequiredService(serviceType);
+        }
+
+        public static object GetRequiredService(Type serviceType)
+        {
+            return App.Services.GetRequiredService(serviceType);
+        }
+
+
         public static List<string> WPFImageUnsupportedFormats = new() { "webp" };
     }
 }

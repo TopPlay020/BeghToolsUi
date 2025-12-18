@@ -30,7 +30,7 @@ namespace BeghToolsUi
                     var attr = type.GetCustomAttribute<ArgumentPlayableAttribute>()!;
                     if (startupEventArgs.Args[0] == attr.ArgumentName)
                     {
-                        ((IArgumentPlayable)Services.GetRequiredService(type)).PlayWithArgument(startupEventArgs);
+                        (GetRequiredService<IArgumentPlayable>(type)).PlayWithArgument(startupEventArgs);
                         Shutdown();
                         return;
                     }
@@ -38,7 +38,7 @@ namespace BeghToolsUi
                 }
             else
             {
-                var mainWindow = Services.GetRequiredService<MainWindow>();
+                var mainWindow = GetRequiredService<MainWindow>();
                 mainWindow.Show();
             }
         }

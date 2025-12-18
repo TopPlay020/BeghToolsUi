@@ -106,7 +106,7 @@ namespace BeghToolsUi.ViewModel.Pages
         [RelayCommand]
         private async Task ConvertImage()
         {
-            string TempDir = App.Services.GetRequiredService<TempService>().TempDir;
+            string TempDir = GetRequiredService<TempService>().TempDir;
             string tempFile = Path.Combine(TempDir, $"{Guid.NewGuid()}.{OutputImageType}");
             IsConverting = true;
             CanConvert = false;
