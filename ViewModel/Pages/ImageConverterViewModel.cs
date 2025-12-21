@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.Drawing;
 using System.IO;
 namespace BeghToolsUi.ViewModel.Pages
 {
@@ -100,7 +101,7 @@ namespace BeghToolsUi.ViewModel.Pages
         [RelayCommand]
         private void SelectColor()
         {
-            
+
         }
 
         [RelayCommand]
@@ -111,10 +112,10 @@ namespace BeghToolsUi.ViewModel.Pages
             IsConverting = true;
             CanConvert = false;
             ReadyToExport = false;
-            await Task.Run(() =>
-            {
-                _imageConversionService.ConvertImage(SourceImagePath, tempFile, OutputImageType);
-            });
+
+            Color color = ColorTranslator.FromHtml(SelectedColorHex);
+            _imageConversionService.ConvertImage(SourceImagePath, tempFile, OutputImageType, color);
+
             IsConverting = false;
             CanConvert = true;
             ReadyToExport = true;

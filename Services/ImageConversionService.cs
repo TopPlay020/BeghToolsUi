@@ -8,7 +8,7 @@ namespace BeghToolsUi.Services
     public class ImageConversionService : ISingletonable
     {
         static public List<string> SupportedFormats = ["png", "jpg", "jpeg", "bmp", "gif", "ico", "webp"];
-        public void ConvertImage(string imagePath, string outputPath, string outputFormat)
+        public void ConvertImage(string imagePath, string outputPath, string outputFormat, Color backgroundColor = default)
         {
             Bitmap image;
             if (IsWebP(imagePath))
@@ -23,7 +23,7 @@ namespace BeghToolsUi.Services
 
             if (outputFormat.Equals("ico", StringComparison.OrdinalIgnoreCase))
                 SaveIconFile(outputPath, image);
-            else if( outputFormat.Equals("webp", StringComparison.OrdinalIgnoreCase))
+            else if (outputFormat.Equals("webp", StringComparison.OrdinalIgnoreCase))
             {
                 using (var webp = new WebP())
                 {
@@ -36,7 +36,9 @@ namespace BeghToolsUi.Services
                 {
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
-                        g.Clear(Color.White);
+                        if (backgroundColor == default)
+                            backgroundColor = Color.White;
+                        g.Clear(backgroundColor);
                         g.DrawImage(image, 0, 0, image.Width, image.Height);
                     }
                     bmp.Save(outputPath, ImageFormat.Jpeg);
