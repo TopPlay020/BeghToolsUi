@@ -18,10 +18,10 @@
         VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Border
-            Margin="0,0,5,0"
             Padding="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
@@ -37,36 +37,97 @@
                 <Image
                     Grid.Column="0"
                     Margin="10"
+                    RenderOptions.BitmapScalingMode="HighQuality"
                     Source="/Assets/Icons/wifi.png" />
                 <ListView
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    ItemsSource="{Binding NetworkInterfaceViewModels}">
+                    ItemsSource="{Binding NetworkInterface}"
+                    SelectedValue="{Binding SelectedNetworkInterface, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image
-                                    Width="32"
-                                    Height="32"
-                                    Margin="5"
-                                    Source="/Assets/Icons/NetworkAdapter.png" />
-                                <StackPanel Margin="5" Orientation="Vertical">
-                                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding IsUp}" />
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        Margin="5"
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                        Source="/Assets/Icons/NetworkAdapter.png" />
+                                    <StackPanel Margin="5" Orientation="Vertical">
+                                        <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                        <TextBlock Text="Offline" Visibility="{Binding IsUp, Converter={StaticResource BoolToCollapsedVisibilityConverter}, ConverterParameter=True}" />
+                                        <TextBlock Text="Online" Visibility="{Binding IsUp, Converter={StaticResource BoolToCollapsedVisibilityConverter}}" />
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
+                                <Ellipse
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Fill="{DynamicResource SystemFillColorSuccessBrush}"
+                                    Visibility="{Binding IsUp, Converter={StaticResource BoolToCollapsedVisibilityConverter}}" />
+
+                                <Ellipse
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Fill="{DynamicResource SystemFillColorCriticalBrush}"
+                                    Visibility="{Binding IsUp, Converter={StaticResource BoolToCollapsedVisibilityConverter}, ConverterParameter=True}" />
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
         </Border>
         <Border
-            Grid.Column="1"
+            Grid.Column="2"
             Width="150"
-            Margin="5,0,0,0"
             d:Background="Gray"
             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-            CornerRadius="10" />
+            CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Margin="5"
+                        Source="/Assets/Icons/download.png" />
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center">
+                        <TextBlock FontWeight="Bold" Text="Download" />
+                        <TextBlock VerticalAlignment="Center" Text="100 Kb/s" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Margin="5"
+                        Source="/Assets/Icons/upload.png" />
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center">
+                        <TextBlock FontWeight="Bold" Text="Upload" />
+                        <TextBlock VerticalAlignment="Center" Text="100 Kb/s" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

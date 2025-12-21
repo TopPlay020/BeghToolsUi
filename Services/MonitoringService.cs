@@ -14,14 +14,14 @@ namespace BeghToolsUi.Services
         private IEnumerable<NetworkInterface> GetNetworkInterfaces()
         {
             return NetworkInterface.GetAllNetworkInterfaces()
-         .Where(n => (n.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
-                      n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211) &&
-                     !n.Description.Contains("Virtual") &&
-                     !n.Description.Contains("Npcap") &&
-                     !n.Description.Contains("WFP") &&
-                     !n.Description.Contains("QoS") &&
-                     n.GetIPProperties().UnicastAddresses.Count > 0);
-        }
+             .Where(n => (n.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                          n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211) &&
+                         !n.Description.Contains("Virtual") &&
+                         !n.Description.Contains("Npcap") &&
+                         !n.Description.Contains("WFP") &&
+                         !n.Description.Contains("QoS") &&
+                         n.GetIPProperties().UnicastAddresses.Count > 0);
+            }
 
         public void InitGetNetworkInterface()
         {

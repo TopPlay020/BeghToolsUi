@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:BeghToolsUi.Converters">
     <converters:BoolToHiddenVisibilityConverter x:Key="BoolToHiddenVisibilityConverter" />
+    <converters:BoolToCollapsedVisibilityConverter x:Key="BoolToCollapsedVisibilityConverter" />
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     <converters:HexToBrushConverter x:Key="HexToBrushConverter" />

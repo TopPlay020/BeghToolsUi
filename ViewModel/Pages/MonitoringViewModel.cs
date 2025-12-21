@@ -12,11 +12,14 @@ namespace BeghToolsUi.ViewModel.Pages
     {
         private MonitoringService _monitoringService;
         [ObservableProperty]
-        private ObservableCollection<NetworkInterfaceViewModel> networkInterfaceViewModels;
+        private ObservableCollection<NetworkInterfaceViewModel> networkInterface;
+        [ObservableProperty]
+        private NetworkInterfaceViewModel selectedNetworkInterface;
         public MonitoringViewModel(MonitoringService monitoringService)
         {
             _monitoringService = monitoringService;
-            NetworkInterfaceViewModels = new(_monitoringService.NetworkInterfaces);
+            NetworkInterface = new(_monitoringService.NetworkInterfaces.OrderByDescending(ni => ni.isUp));
+            SelectedNetworkInterface = NetworkInterface.First();
         }
     }
 }
