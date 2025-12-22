@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 
 namespace BeghToolsUi
 {
@@ -47,5 +48,14 @@ namespace BeghToolsUi
 
 
         public static List<string> WPFImageUnsupportedFormats = new() { "webp" };
+
+        public static Uri GetUri(string relativePath, string assemblyName = null)
+        {
+            if (string.IsNullOrEmpty(assemblyName))
+                assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
+
+            return new Uri($"pack://application:,,,/{assemblyName};component/{relativePath}", UriKind.Absolute);
+        }
+
     }
 }

@@ -38,8 +38,8 @@ namespace BeghToolsUi
                 }
             else
             {
-                var mainWindow = GetRequiredService<MainWindow>();
-                mainWindow.Show();
+                foreach (var type in GetTypesImplementing<IAutoStartGUI>())
+                    GetRequiredService<IAutoStartGUI>(type);
             }
         }
     }
