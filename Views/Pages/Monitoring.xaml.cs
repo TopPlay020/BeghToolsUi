@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BeghToolsUi.Views.Pages
@@ -15,6 +16,11 @@ namespace BeghToolsUi.Views.Pages
             InitializeComponent();
             ViewModel = viewModel;
             DataContext = ViewModel;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OnUnload();
         }
     }
 }

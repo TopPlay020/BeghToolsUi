@@ -4,6 +4,7 @@
     xmlns:converters="clr-namespace:BeghToolsUi.Converters">
     <converters:BoolToHiddenVisibilityConverter x:Key="BoolToHiddenVisibilityConverter" />
     <converters:BoolToCollapsedVisibilityConverter x:Key="BoolToCollapsedVisibilityConverter" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     <converters:HexToBrushConverter x:Key="HexToBrushConverter" />

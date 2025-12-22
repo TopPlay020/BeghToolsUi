@@ -11,6 +11,7 @@
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="550"
     d:DesignWidth="900"
+    Unloaded="OnUnloaded"
     mc:Ignorable="d">
     <Grid
         Height="130"
@@ -22,6 +23,7 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Border
+            x:Name="WifiListBorder"
             Padding="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
@@ -45,6 +47,16 @@
                     VerticalAlignment="Center"
                     ItemsSource="{Binding NetworkInterface}"
                     SelectedValue="{Binding SelectedNetworkInterface, Mode=TwoWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUp}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -84,47 +96,59 @@
         </Border>
         <Border
             Grid.Column="2"
-            Width="150"
+            Width="{Binding ElementName=WifiListBorder, Path=ActualHeight}"
             d:Background="Gray"
             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
             CornerRadius="10">
             <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Opacity" Value="1" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedNetworkInterface, Converter={StaticResource NullToBoolConverter}}" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.5*" />
                     </Grid.ColumnDefinitions>
                     <Image
                         Grid.Column="0"
-                        Margin="5"
+                        Margin="3"
+                        RenderOptions.BitmapScalingMode="HighQuality"
                         Source="/Assets/Icons/download.png" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="5,0,0,0"
                         VerticalAlignment="Center">
                         <TextBlock FontWeight="Bold" Text="Download" />
-                        <TextBlock VerticalAlignment="Center" Text="100 Kb/s" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding DownloadSpeed}" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1" Margin="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.5*" />
                     </Grid.ColumnDefinitions>
                     <Image
                         Grid.Column="0"
-                        Margin="5"
+                        Margin="3"
+                        RenderOptions.BitmapScalingMode="HighQuality"
                         Source="/Assets/Icons/upload.png" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="5,0,0,0"
                         VerticalAlignment="Center">
                         <TextBlock FontWeight="Bold" Text="Upload" />
-                        <TextBlock VerticalAlignment="Center" Text="100 Kb/s" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding UploadSpeed}" />
                     </StackPanel>
                 </Grid>
             </Grid>
